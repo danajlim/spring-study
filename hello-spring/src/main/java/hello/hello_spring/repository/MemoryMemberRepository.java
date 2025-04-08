@@ -26,8 +26,9 @@ public class MemoryMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findByName(String name) {
-        //
+        //리스트(Collection)를 Stream(흐름)으로 바꿔서 함수형 처리할 수 있게
         return store.values().stream()
+                //Stream 안에서 각 member에 대해 이름이 요청한 name과 같은지 비교
                 .filter(member -> member.getName().equals(name))
                 .findAny(); //하나라도 찾으면 바로 반환
     }
@@ -36,5 +37,9 @@ public class MemoryMemberRepository implements MemberRepository {
     public List<Member> findAll() {
         //현재 저장소에 있는 모든 회원 목록을 리스트로 반환
         return new ArrayList<>(store.values());
+    }
+
+    public void clearStore(){
+        store.clear();
     }
 }
