@@ -2,15 +2,24 @@ package hello.hello_spring.service;
 
 import hello.hello_spring.domain.Member;
 import hello.hello_spring.repository.MemberRepository;
-import hello.hello_spring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 //“회원 가입”, “중복 검증”, “회원 조회” 등 비즈니스 로직을 담당하는 서비스 계층
 public class MemberService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+
+    //service 는 repo에 의존 (즉, repo가 필요함)
+    //스프링이 @Repository로 등록된 객체를 찾아서 자동으로 생성자에 넣어줌
+    @Autowired
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
 
     //회원가입
     public Long join(Member member){
