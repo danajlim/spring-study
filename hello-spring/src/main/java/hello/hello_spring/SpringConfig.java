@@ -1,23 +1,23 @@
 package hello.hello_spring;
 
-import hello.hello_spring.repository.JdbcTemplateMemberRepository;
+import hello.hello_spring.repository.JpaMemberRepository;
 import hello.hello_spring.repository.MemberRepository;
 import hello.hello_spring.service.MemberService;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
-
 @Configuration //스프링 설정 클래스, 내부에 정의된 bean들 스프링 컨테이너에 등록
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private EntityManager em;
 
     @Autowired
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource=dataSource;
+    public SpringConfig(EntityManager em) {
+        this.em = em;
     }
+
 
     //스프링 컨테이너에 등록(= 스프링 빈으로 등록)
     @Bean
@@ -29,7 +29,7 @@ public class SpringConfig {
     @Bean
     public MemberRepository memberRepository(){
         //@Bean이 붙은 memberRepository() 메서드 -> MemoryMemberRepository 객체 생성
-        return new JdbcTemplateMemberRepository(dataSource);
+        return new JpaMemberRepository(em);
     }
 
 }

@@ -2,10 +2,12 @@ package hello.hello_spring.service;
 
 import hello.hello_spring.domain.Member;
 import hello.hello_spring.repository.MemberRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 //“회원 가입”, “중복 검증”, “회원 조회” 등 비즈니스 로직을 담당하는 서비스 계층
 public class MemberService {
 
