@@ -9,8 +9,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MemoryMemberRepositoryTest {
-    MemberRepository repository = new MemoryMemberRepository();
-
+    MemoryMemberRepository repository = new MemoryMemberRepository();
     //각 테스트 실행 후 실행됨 : 저장소 초기화
     @AfterEach
     public void afterEach(){
