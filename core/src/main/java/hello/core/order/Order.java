@@ -25,6 +25,19 @@ public class Order {
         return memberId;
     }
 
+    public String getItemName() {
+        return itemName;
+    }
+
+
+    public int getItemPrice() {
+        return itemPrice;
+    }
+
+    public int getDiscountPrice() {
+        return discountPrice;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
