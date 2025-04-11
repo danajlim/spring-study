@@ -1,5 +1,7 @@
 package hello.core.member;
 
+
+//회원 클래스
 public class Member {
     private Long id;
     private String name;
