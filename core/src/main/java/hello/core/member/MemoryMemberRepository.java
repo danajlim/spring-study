@@ -1,9 +1,12 @@
 package hello.core.member;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Component
 //회원 저장소 구현체
 public class MemoryMemberRepository implements MemberRepository{
 
