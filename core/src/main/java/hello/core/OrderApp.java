@@ -19,10 +19,10 @@ public class OrderApp {
         OrderService orderService = ac.getBean("orderService", OrderService.class);
 
         Long memberId = 1L;
-        Member member = new Member(memberId, "MemberA", Grade.VIP);
+        Member member = new Member(0, "MemberA", Grade.VIP);
         memberService.join(member);
 
-        Order order = orderService.createorder(memberId, "itemA", 10000);
+        Order order = orderService.createorder(0, "itemA", 10000);
 
         System.out.println("order = " + order);
         System.out.println("order.calculatePrice = " + order.calculatePrice());

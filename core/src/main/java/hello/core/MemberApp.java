@@ -17,7 +17,7 @@ public class MemberApp {
         //(memberService : 이름, MemberService.class : 타입)을 Bean에서 꺼내오는것
         MemberService memberService = ac.getBean("memberService", MemberService.class);
 
-        Member member = new Member(1L, "memberA", Grade.VIP);
+        Member member = new Member(0, "memberA", Grade.VIP);
         memberService.join(member);
 
         Member findMember = memberService.findMember(1L);

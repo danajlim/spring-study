@@ -21,11 +21,11 @@ public class OrderServiceTest {
 
     @Test
     void createOrder() {
-        long memeberId = 1L;
-        Member member = new Member(memeberId, "memberA", Grade.VIP);
+        long memberId = 1L;
+        Member member = new Member(1L, "memberA", Grade.VIP);
         memberService.join(member);
 
-        Order order = orderService.createorder(memeberId, "itemA", 1000);
+        Order order = orderService.createorder(1L, "itemA", 1000);
         Assertions.assertThat(order.getDiscountPrice()).isEqualTo(100);
 
     }

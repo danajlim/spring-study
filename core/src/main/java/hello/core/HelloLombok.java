@@ -15,7 +15,7 @@ public class HelloLombok {
 
     public static void main(String[] args){
         HelloLombok helloLombok = new HelloLombok();
-        helloLombok.setAge("dana");
+        helloLombok.setName("dana");
 
         String name = helloLombok.getName();
         System.out.println("name = " + name);
