@@ -21,7 +21,7 @@ public class BeanLifeCycleTest {
     //설정 클래스 : @Bean을 통해 직접 빈 객체를 생성하고 등록
     @Configuration
     static class LifeCycleConfig{
-        @Bean(initMethod = "init", destroyMethod = "close")
+        @Bean
         public NetworkClient networkClient(){
             NetworkClient networkClient = new NetworkClient();
             networkClient.setUrl("www.hello.com");

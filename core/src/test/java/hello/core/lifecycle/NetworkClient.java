@@ -1,5 +1,7 @@
 package hello.core.lifecycle;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -32,12 +34,17 @@ public class NetworkClient {
         System.out.println("close: " + url);
     }
 
-    //여기서부터 진짜 유효한 url 기반으로 연결 시작 : 객체 생성 후 초기화
+    //초기화 메서드
+    //url이 주입된 후에 실행됨 (Spring이 Bean 초기화할 때 자동 호출)
+    @PostConstruct
     public void init() {
         connect();
         call("초기화 연결 메세지");
     }
 
+    //종료 메서드
+    //ApplicationContext가 닫힐때 자동으로 호출됨
+    @PreDestroy
     //연결종료 : 객체 소멸 전 정리
     public void close(){
         disconnect();
