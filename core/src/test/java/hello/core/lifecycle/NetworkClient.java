@@ -3,7 +3,7 @@ package hello.core.lifecycle;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
-public class NetworkClient implements InitializingBean, DisposableBean {
+public class NetworkClient {
     private String url;
 
     public NetworkClient(){
@@ -33,15 +33,13 @@ public class NetworkClient implements InitializingBean, DisposableBean {
     }
 
     //여기서부터 진짜 유효한 url 기반으로 연결 시작 : 객체 생성 후 초기화
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    public void init() {
         connect();
-        call("초기화 메세지");
+        call("초기화 연결 메세지");
     }
 
     //연결종료 : 객체 소멸 전 정리
-    @Override
-    public void destroy() throws Exception {
+    public void close(){
         disconnect();
     }
 }
