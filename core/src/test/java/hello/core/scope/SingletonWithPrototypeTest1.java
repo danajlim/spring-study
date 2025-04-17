@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -30,15 +31,15 @@ public class SingletonWithPrototypeTest1 {
     //ClientBean은 싱글톤이기 때문에 spring container가 처음 한번만 생성 -> PrototypeBean도 한번만 주입됨.
     //prototypeBean은 계속 같은 인스턴스를 참조
     static class ClientBean{ //singleton Bean
-        private final PrototypeBean prototypeBean; //스프링에서 의존성 주입(DI)을 받을 필드 선언
 
-        // ClientBean을 만들 때 PrototypeBean을 찾아서 주입
+        //항상 새로운 프로토타입 빈이 생성되게 ObjectProvider : Dependency Lookup
+        //필요할 때마다 직접 prototype Bean을 요청
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private ObjectProvider<PrototypeBean> prototypeBeanObjectProvider;
 
         public int logic(){
+            //getObject()를 호출할 때마다 Spring이 새로운 프로토타입 인스턴스를 만들어줌
+            PrototypeBean prototypeBean = prototypeBeanObjectProvider.getObject();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
@@ -75,6 +76,6 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 }
