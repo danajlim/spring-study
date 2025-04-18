@@ -3,6 +3,7 @@ package hello.core.common;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -10,7 +11,8 @@ import java.util.UUID;
 //MyLogger – 요청 스코프 로깅 Bean: HTTP 요청마다 새로운 인스턴스를 생성해서 로그 출력하는 클래스
 //uuid와 requestURL을 내부에 저장하고, 로그를 남김
 @Component //Spring Bean으로 자동 등록됨
-@Scope(value = "request") //HTTP 요청마다 새로 인스턴스를 만든다는 의미, 웹 요청마다 새로 생성
+//proxyMode 사용시 스프링이 진짜 객체 대신 가짜 프록시 객체를 싱글톤 빈에 먼저 주입하고, 요청이 시작될때 진짜 request scope 객체로 연결해줌
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS) //HTTP 요청마다 새로 인스턴스를 만든다는 의미, 웹 요청마다 새로 생성
 public class MyLogger {
     private String uuid; //Logger 인스턴스에 대한 고유 ID
     private String requestURL; //어떤 요청인지 식별하기 위한 URL

@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LogDemoController {
     private final LogDemoService logDemoService;
     //지연 조회(지연 주입)을 위한 기능 ObjectProvider
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) {
-        //getObject 호출 시 현재 요청 컨텍스트에 맞는 MyLogger을 찾아서 주입
-        MyLogger myLogger = myLoggerProvider.getObject();
         //현재 요청의 URL을 얻어서
         String requestURL = request.getRequestURL().toString();
         //MyLogger에 전달 (setRequestURL)
