@@ -13,7 +13,8 @@ import java.util.Set;
 
 /*HTTP 응답 헤더와 본문을 수동으로 설정해서 전송
 * HTTP 응답 메시지를 구성하는 웹 계층(Controller 역할) 클래스
-* */
+* 브라우저는 HTTP 응답을 텍스트로 출력하거나 리다이렉트함
+ * */
 @WebServlet(name = "responseHeaderServlet", urlPatterns = "/response-header")
 public class ResponseHeaderServlet extends HttpServlet {
 
