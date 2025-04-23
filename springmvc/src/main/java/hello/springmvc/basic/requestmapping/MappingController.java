@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.HTML;
 import java.awt.*;
 
 @RestController
@@ -100,6 +101,8 @@ public class MappingController {
      * consumes="*\/*"
      * MediaType.APPLICATION_JSON_VALUE
      */
+    //consumes -> content-type -> 클라이언트가 보내는 데이터 형식
+    //Content-Type: application/json인 요청만 처리 -> 클라이언트가 JSON 데이터를 보내는 경우만 실행
     @PostMapping(value = "/mapping-consume", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String mappingConsumes() {
         log.info("mappingConsumes");
@@ -113,6 +116,8 @@ public class MappingController {
      * produces = "text/*"
      * produces = "*\/*"
      */
+    //produces -> accept -> 클라이언트가 받고 싶은 응답 형식 
+    //클라이언트가 Accept: text/html을 요청한 경우만 실행 -> HTML 형식으로 응답 가능한 경우에만 사용
     @PostMapping (value = "/mapping-produce", produces = MediaType.TEXT_HTML_VALUE)
     public String mappingProduces() {
         log.info("mappingProduces");
