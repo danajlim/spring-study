@@ -116,7 +116,7 @@ public class MappingController {
      * produces = "text/*"
      * produces = "*\/*"
      */
-    //produces -> accept -> 클라이언트가 받고 싶은 응답 형식 
+    //produces -> accept -> 클라이언트가 받고 싶은 응답 형식
     //클라이언트가 Accept: text/html을 요청한 경우만 실행 -> HTML 형식으로 응답 가능한 경우에만 사용
     @PostMapping (value = "/mapping-produce", produces = MediaType.TEXT_HTML_VALUE)
     public String mappingProduces() {
