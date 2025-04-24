@@ -61,6 +61,7 @@ public class RequestBodyJsonController {
 
         log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
         return "ok";
+
     }
 
     //HttpEntity를 사용
