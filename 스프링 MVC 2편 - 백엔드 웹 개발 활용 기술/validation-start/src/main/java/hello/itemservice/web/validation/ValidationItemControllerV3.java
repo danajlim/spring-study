@@ -73,8 +73,6 @@ public class ValidationItemControllerV3 {
         return "redirect:/validation/v3/items/{itemId}";
     }
 
-
-
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
@@ -84,7 +82,7 @@ public class ValidationItemControllerV3 {
 
     //UpdateCheck.class: Item.java에서 updatecheck 표시된것만 검증
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes bindingResult) {
+    public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
         itemRepository.update(itemId, item);
 
         if (item.getPrice() != null && item.getQuantity() != null) {
