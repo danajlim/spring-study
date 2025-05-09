@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+    //@PostMapping("/login")
     public String loginV2(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
@@ -72,6 +73,36 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
         return "redirect:/";
+
+    }
+
+    @PostMapping("/login")
+    public String loginV3(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
+                          @RequestParam(defaultValue = "/") String redirectURL,
+                          HttpServletRequest request) {
+
+        //입력값이 잘못된 경우 다시 로그인 폼으로 이동
+        if (bindingResult.hasErrors()) {
+            return "login/loginForm";
+        }
+
+        //입력된 아이디/비밀번호로 로그인 시도
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+
+        //로그인에 실패
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다");
+            return "login/loginForm"; //로그인 폼으로 이동
+        }
+
+        //로그인 성공처리
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession();
+        //세션에 로그인 회원 정보 저장
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        //로그인 성공 후 사용자가 원래 가려고 했던 페이지(redirectURL)로 이동
+        return "redirect:/" + redirectURL;
 
     }
 
