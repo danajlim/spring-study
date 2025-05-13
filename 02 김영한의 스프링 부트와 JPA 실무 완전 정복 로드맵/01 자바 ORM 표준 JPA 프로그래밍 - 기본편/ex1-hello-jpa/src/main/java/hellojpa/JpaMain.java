@@ -24,28 +24,19 @@ public class JpaMain {
         try {
             //1. 등록
             //Member 객체 생성: 아직 메모리 상에 존재, DB에는 반영 X
+            //비영속 상태
             Member member = new Member();
-            member.setId(2L);
-            member.setName("Jelly");
+            member.setId(101L);
+            member.setName("임지빈");
 
             //만든 Member 객체를 영속성 컨텍스트에 저장 (DB에 저장 예정으로 등록됨)
+            //영속 상태: 1차 캐시에서 저장된 상태
             em.persist(member);
 
-            //2. 조회
-            Member findMember = em.find(Member.class, 1L);
-
-            //JPQL로 전체 회원 검색
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10) //1~10까지 가져오기
-                    .getResultList();
-
-
-            //3. 삭제
-            em.remove(findMember);
-
-            //4. 수정
-            findMember.setName("HelloJpa");
+            // 2. 조회-> DB에서 조회하는게 아니라 1차 캐시에서 조회
+            Member findMember = em.find(Member.class, 101L);
+            System.out.println("findMember.id = " + findMember.getId());
+            System.out.println("findMember.name = " + findMember.getName());
 
             //트랙잭션 commit: JPA가 내부적으로 insert into.. 쿼리를 생성하고 DB에 전송
             tx.commit();
