@@ -2,42 +2,42 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 public class JpaMain {
 
     public static void main(String[] args) {
 
-        //EntityManager를 생성할 수 있는 팩토리 객체를 생성: 데이터베이스와 연결
-        // 하나만 생성해서 애플리케이션 전체에 공유
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-
-        //실제로 DB 작업을 수행하는 JPA 핵심 객체: 단위 작업은 여기서 수행
-        // 쓰레드간 공유하면 안됨 -> 사용하고 버려야함
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hellojpa");
         EntityManager em = emf.createEntityManager();
 
-        //트랜잭션 시작: JPA는 데이터 변경 작업 시 항상 트랜잭션 안에서 작업해야함.
-        //flush, persist, merge, remove
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
         try {
 
-            Member findMember1 = em.find(Member.class, 101L);
-            Member findMember2 = em.find(Member.class, 101L);
+            //비영속(new) -> new로 생성했지만 persist 안한 상태
+            Member member = em.find(Member.class, 150L);
+            member.setName("Dana");
 
-            System.out.println("result= " + (findMember1==findMember2));
+            //영속 -> JPA가 관리하는 상태
+            em.persist(member);
+
+            //준영속 상태 -> 이제 jpa에서 관리 안함: 영속성 컨텍스트에서 빠져나감
+            em.detach(member); //특정 엔티티만 준영속 상태로 전환
+            em.clear(); //영속성 컨텍스트를 완전히 초기화: 다 준영속 상태로 됨
+            em.close(); // 영속성 컨텍스트 종료
 
 
-            //트랙잭션 commit: JPA가 내부적으로 insert into.. 쿼리를 생성하고 DB에 전송
-            tx.commit();
+            //삭제 -> 삭제 예정
+            em.remove(member);
+
         } catch (Exception e) {
             tx.rollback();
         } finally {
             em.close();
         }
 
-        //자원 해제하고 DB 연결 종료
         emf.close();
+
+
     }
 }

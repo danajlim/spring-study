@@ -1,20 +1,25 @@
 package hellojpa;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
 public class Member {
+    public Member(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Member() {
+    }
 
     @Id
-    private Long id;
+    private String id;
     private String name;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
